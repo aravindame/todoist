@@ -427,7 +427,7 @@ header {
 
   &__inner {
     @include box-overlay();
-    z-index: 99;
+    z-index: 400;
     width: 200px;
     padding: 10px;
     top: 10px;
