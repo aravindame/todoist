@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useProjectsValue, useSelectedProjectValue } from '../context';
 import { firestore } from '../firebase';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 export const IndividualProject = ({ project }) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -9,13 +10,13 @@ export const IndividualProject = ({ project }) => {
   const { setSelectedProject } = useSelectedProjectValue();
 
   const deleteProject = (docId) => {
-    firestore
-      .collection('projects')
-      .doc(docId)
-      .delete()
+    deleteDoc(doc(firestore, 'projects', docId))
       .then(() => {
         setProjects([...projects]);
         setSelectedProject('INBOX');
+      })
+      .catch((error) => {
+        console.error('Error deleting document: ', error);
       });
   };
 
